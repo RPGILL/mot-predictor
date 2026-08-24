@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOT Health Predictor</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div>
+        <p class="eyebrow">MOT HEALTH PREDICTOR</p>
+        <h1>Check your vehicle's MOT readiness</h1>
+        <p class="subtitle">An explainable machine-learning assessment based on MOT history.</p>
+      </div>
+      </div>
+  </header>
+
+  <main class="container">
+    <section class="search-panel card">
+      <form id="registration-form">
+        <label for="registration">Vehicle registration</label>
+        <div class="search-row">
+          <input id="registration" name="registration" type="text" maxlength="10"
+                 autocomplete="off" spellcheck="false" placeholder="e.g. WR66VSL" required />
+          <button id="submit-button" type="submit">Check MOT readiness</button>
+        </div>
+        <p class="help-text">Enter a GB vehicle registration. Spaces are optional.</p>
+      </form>
+    </section>
+
+    <section id="status" class="status hidden" aria-live="polite"></section>
+
+    <section id="results" class="hidden">
+      <div class="vehicle-heading">
+        <div>
+          <p class="eyebrow">VEHICLE</p>
+          <h2 id="vehicle-title">—</h2>
+          <p id="vehicle-meta" class="muted">—</p>
+        </div>
+        <div id="risk-pill" class="risk-pill">—</div>
+      </div>
+
+      <div class="overview-grid">
+        <article class="card probability-card">
+          <p class="section-label">Estimated next-MOT outcome</p>
+          <div class="probability-layout">
+            <div class="gauge-wrap">
+              <div id="risk-gauge" class="risk-gauge">
+                <div class="gauge-inner">
+                  <span id="fail-percent" class="gauge-value">—</span>
+                  <span class="gauge-caption">failure risk</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="probability-stats">
+              <div class="stat-row"><span>PASS</span><strong id="pass-percent">—</strong></div>
+              <div class="stat-row"><span>FAIL</span><strong id="fail-percent-text">—</strong></div>
+              <div class="stat-row"><span>Warning threshold</span><strong id="warning-threshold">—</strong></div>
+            </div>
+          </div>
+          <p id="summary" class="summary-text"></p>
+        </article>
+
+        <article class="card context-card">
+          <p class="section-label">Prediction context</p>
+          <dl class="context-list">
+            <div><dt>Latest MOT</dt><dd id="latest-mot-date">—</dd></div>
+            <div><dt>Next MOT / expiry</dt><dd id="mot-expiry-date">—</dd></div>
+            <div><dt>Prediction horizon</dt><dd id="prediction-horizon">—</dd></div>
+            <div><dt>Historical failure rate</dt><dd id="historical-failure-rate">—</dd></div>
+            <div><dt>Recent failures</dt><dd id="recent-failures">—</dd></div>
+            <div><dt>Latest advisories</dt><dd id="latest-advisories">—</dd></div>
+          </dl>
+        </article>
+      </div>
+
+      <section class="results-section">
+        <div class="section-heading">
+          <div><p class="eyebrow">PRIORITY</p><h2>Likely failure areas</h2></div>
+          <p class="section-description">ML warning signals supported by stronger MOT-history evidence.</p>
+        </div>
+        <div id="likely-failure-areas" class="issue-grid"></div>
+        <div id="likely-empty" class="empty-state hidden">No category currently meets the stricter likely-failure rule.</div>
+      </section>
+
+      <section class="results-section">
+        <div class="section-heading">
+          <div><p class="eyebrow">LATEST MOT</p><h2>Current advisory checks</h2></div>
+          <p class="section-description">Advisory items still recorded on the latest final MOT result.</p>
+        </div>
+        <div id="current-advisories" class="issue-grid"></div>
+        <div id="advisory-empty" class="empty-state hidden">No current advisory categories were returned.</div>
+      </section>
+
+      <section class="results-section">
+        <div class="section-heading">
+          <div><p class="eyebrow">MONITOR</p><h2>Watchlist</h2></div>
+          <p class="section-description">Weaker but relevant signals that may deserve attention before the next MOT.</p>
+        </div>
+        <div id="watchlist" class="issue-grid"></div>
+        <div id="watchlist-empty" class="empty-state hidden">No watchlist items for this vehicle.</div>
+      </section>
+
+      <details class="card developer-details">
+        <summary>Technical / development information</summary>
+        <div class="developer-content">
+          <p>Model-only signals are retained for transparency but are not promoted without supporting MOT-history evidence.</p>
+          <div id="development-signals"></div>
+        </div>
+      </details>
+
+      <div class="disclaimer"><strong>Important:</strong> <span id="important-note"></span></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">MOT Health Predictor · Explainable ML prototype</div>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

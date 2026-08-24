@@ -1,0 +1,13 @@
+.env
+
+venv/
+.venv/
+
+__pycache__/
+*.pyc
+
+data/
+models/*.joblib
+reports/*.csv
+
+*.zip
